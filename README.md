@@ -6,17 +6,21 @@ Start the application with the ip address as Command-Line Argument. Then you nee
  + --ip (IP of Hue Bridge)
  + --bulbs (list of bulbs for the most effects)
    + provides included bulbs for the most effects
+   + only hue color lamps are working fine
  + --bulbs-cycle (List of bulbs for Light cycle effect)
    + provides included bulbs
    + provides order for Light cycle effect
+   + only hue color lamps are working fine
  + --blacklight (Sockets for blacklight)
+   + used for adding blacklight effects
+   + use for this only sockets
    
 
 Example: --ip 192.168.1.100 --bulbs 15 1 24 26 42 53 2 52 --bulbs-cycle 1 26 17 24 53 2 52 --blacklight 50 48 
 ## Limitations
- + The used bulbs are hardcoded
  + You could not turn specific effects on or off
- + hue bridge needed
+ + Hue bridge needed or equal interface
+
 
 ## Supported effects
 ### Flickering of bulbs
