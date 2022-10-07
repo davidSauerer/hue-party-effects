@@ -19,31 +19,21 @@ def toggle_lamp(lamp):
 
 
 def glimmer_lamp(lamp, bri, sat, hue):
-    hue_glimmer = maxmin_glimmer_hue(hue + random.randint(-2000, 2000))
-    bri_glimmer = maxmin_glimmer254(bri + random.randint(-30, 30))
-    sat_glimmer = maxmin_glimmer254(sat + random.randint(-30, 30))
+    hue_glimmer = maxmin_glimmer(hue + random.randint(-2000, 2000), 65500)
+    bri_glimmer = maxmin_glimmer(bri + random.randint(-30, 30), 254)
+    sat_glimmer = maxmin_glimmer(sat + random.randint(-30, 30), 254)
     command = {'transitiontime': 10, 'on': True, 'bri': bri_glimmer, 'sat': sat_glimmer, 'hue': hue_glimmer}
     b.set_light(lamp, command)
 
 
-def maxmin_glimmer_hue(glimmer):
-    max_hue = 65500
-    if glimmer < 0:
-        return 0
-    elif glimmer > max_hue:
-        return max_hue
-    else:
-        return glimmer
-
-
-def maxmin_glimmer254(glimmer):
-    max_254 = 254
+def maxmin_glimmer(glimmer, max_value):
     if glimmer <= 0:
         return 1
-    elif glimmer > max_254:
-        return max_254
+    elif glimmer > max_value:
+        return max_value
     else:
         return glimmer
+
 
 def do_glimmer():
     i = 0
@@ -148,5 +138,3 @@ if __name__ == '__main__':
                 black_light_turn_off()
             else:
                 flash_light_effect(500)
-
-
