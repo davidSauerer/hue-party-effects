@@ -1,7 +1,7 @@
 # This is a sample Python script.
 import time
 import random
-import sys
+import argparse
 
 from phue import Bridge
 
@@ -27,44 +27,28 @@ def glimmer_lamp(lamp, bri, sat, hue):
 
 
 def maxmin_glimmer_hue(glimmer):
-    max = 65500
+    max_hue = 65500
     if glimmer < 0:
         return 0
-    elif glimmer > max:
-        return max
+    elif glimmer > max_hue:
+        return max_hue
     else:
         return glimmer
 
 
 def maxmin_glimmer254(glimmer):
-    max = 254
+    max_254 = 254
     if glimmer <= 0:
         return 1
-    elif glimmer > max:
-        return max
+    elif glimmer > max_254:
+        return max_254
     else:
         return glimmer
 
-
-def init_bridge(ip):
-    b = Bridge(ip)
-    # If the app is not registered and the button is not pressed, press the button and call connect() (this only needs to be run a single time)
-    b.connect()
-
-    # Get the bridge state (This returns the full dictionary that you can explore)
-    b.get_api()
-
-    return b
-
-
-# Press the green button in the gutter to run the script.
-def glimmer():
+def do_glimmer():
     i = 0
     for lamp in lamps:
-        # toggleLamp(lamp)
-        # time.sleep(1)
         glimmer_lamp(lamp, lampsBri[i], lampsSat[i], lampsHue[i])
-        # toggleLamp(lamp)
         i = i + 1
 
 
@@ -126,21 +110,25 @@ def flash_light_effect(percentage):
                 time.sleep(0.3)
 
 
-# 1 -> Flur 2 -> Stehlampe, 15 -> hintersofa(LightStrip), 17 -> Wäschelampe, 24 -> hinter TV, 26 -> hinter sofa(bulb),
-# 53 Pflanzenlampe 2, 42 weinkiste, 20 Deckenleuchte Wohnzimmer, 52 planze 1
 if __name__ == '__main__':
-    ip = sys.argv[1]
-    b = init_bridge(ip)
+    parser = argparse.ArgumentParser(description='Personal information')
+    parser.add_argument('--ip', dest='ip', type=str, help='IP of the hue bridge')
+    args = parser.parse_args()
+    b = Bridge(args.ip)
+    # If the app is not registered and the button is not pressed, press the button and call connect() (this only needs to be run a single time)
+    b.connect()
+    # Get the bridge state (This returns the full dictionary that you can explore) with b.get_api()
+
     lamps = [15, 1, 24, 26, 42, 53, 2, 52]
     blackLight = [50, 48]
     lampsHue = []
     lampsBri = []
     lampsSat = []
 
-    for lamp in lamps:
-        lampsHue.append(b.get_light(lamp, 'hue'))
-        lampsSat.append(b.get_light(lamp, 'sat'))
-        lampsBri.append(b.get_light(lamp, 'bri'))
+    for l in lamps:
+        lampsHue.append(b.get_light(l, 'hue'))
+        lampsSat.append(b.get_light(l, 'sat'))
+        lampsBri.append(b.get_light(l, 'bri'))
 
     while True:
         flash_light_effect(99)
@@ -150,7 +138,7 @@ if __name__ == '__main__':
             black_light_turn_off()
 
         if not everything_off_effect(99):
-            glimmer()
+            do_glimmer()
             black_light()
             time.sleep(1)
         else:
