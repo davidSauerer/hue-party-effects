@@ -32,5 +32,5 @@ All lights are turning off at the same time
 ### Lights cycle
 All lights are going off and then on after the another is blinking in a cycle
 
-### Turn hue sockets on and off
-Its allowing you to turn two sockets on and off in addition to the other effects. I use this for dark light.
+### Darklights
+Its allowing you to turn sockets on and off in addition to the other effects. This sockets should then control the blacklight
